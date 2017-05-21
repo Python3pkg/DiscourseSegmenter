@@ -90,7 +90,7 @@ class CONLL(object):
         for iline in istring.splitlines():
             self.add_line(iline)
 
-    def add_line(self, iline = u''):
+    def add_line(self, iline = ''):
         """Parse line and add it as CONLL word to either current or new
         sentence.
 
@@ -145,14 +145,14 @@ class CONLL(object):
 
         """
         retlist = []
-        for s_id in xrange(self.s_id + 1):
+        for s_id in range(self.s_id + 1):
             retlist += [(w.form, s_id, w_id) for w, w_id in \
                             self.sentences[s_id].get_words()]
         return retlist
 
     def __unicode__(self):
         """Return unicode representation of current object."""
-        ostring = u'\n'.join([unicode(s) for s in self.sentences])
+        ostring = '\n'.join([str(s) for s in self.sentences])
         return ostring
 
     def __str__(self):
@@ -256,11 +256,11 @@ class CONLLSentence(object):
         tuples with two elements where the first element is the word itself and
         second element is its index within the sentence.
         """
-        return zip(self.words, xrange(self.w_id + 1))
+        return list(zip(self.words, list(range(self.w_id + 1))))
 
     def __unicode__(self):
         """Return string representation of this object."""
-        ostring = EOL.join([unicode(w) for w in self.words]) + EOS
+        ostring = EOL.join([str(w) for w in self.words]) + EOS
         return ostring
 
     def __str__(self):
@@ -417,7 +417,7 @@ class CONLLWord(object):
 
     def __unicode__(self):
         """Return unicode representation of this object."""
-        retStr = u''
+        retStr = ''
         # convert features and pfeatures to strings
         feat_i = CONLLWord.key2field["feat"]
         feat_str = self._dict2str(self.fields[feat_i])
@@ -444,7 +444,7 @@ class CONLLWord(object):
         fList = []
         if not idict:
             return EMPTY_FIELD
-        for fname, fvalue in idict.iteritems():
+        for fname, fvalue in idict.items():
             if new_format:
                 fList.append(fvalue)
             else:

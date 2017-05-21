@@ -49,7 +49,7 @@ def match(tokens, *search, **options):
         search = reversed(search)
     attr = options.get('attr', 'form')
     for token, item in zip(tokens, search):
-        if isinstance(item, basestring):
+        if isinstance(item, str):
             if token[attr] != item:
                 return False
         elif not any(elem == token[attr] for elem in item):
@@ -263,7 +263,7 @@ class Trie(object):
 
         @return iterator over state's outgoing transitions
         """
-        for (ilabel, next_state) in self._trans[state].iteritems():
+        for (ilabel, next_state) in self._trans[state].items():
             yield (ilabel, next_state)
 
     def as_dot(self, name = None):
@@ -342,7 +342,7 @@ class VerbMatcher(object):
                 self._trie.add_word(stem,
                     output=constraints[:] + [partial(
                         self._has_particle, particle)])
-                self._trie.add_word(u'{0}{1}'.format(particle, stem),
+                self._trie.add_word('{0}{1}'.format(particle, stem),
                     output=constraints)
             else:
                 self._trie.add_word(stem, output=constraints)
@@ -587,7 +587,7 @@ class StartOfClauseMatcher(object):
                 if any(state in finals2 for state in seek_states):
                     return True
                 elif any(state in finals2
-                         for states in finals1.itervalues()
+                         for states in finals1.values()
                             for state in states):
                     return True
                 try:

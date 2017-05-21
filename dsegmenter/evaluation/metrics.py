@@ -21,7 +21,7 @@ from itertools import chain
 from collections import Counter
 
 import segeval
-import parseval
+from . import parseval
 
 from .segmentation import get_untyped_masses, get_typed_nonoverlapping_spans
 
@@ -71,7 +71,7 @@ def metric_kappa(ground_truth, prediction):
     accuracy = metric_accuracy(ground_truth, prediction)
 
     # confusion matrix
-    cf = Counter(zip(ground_truth, prediction))
+    cf = Counter(list(zip(ground_truth, prediction)))
     categories = set(ground_truth) | set(prediction)
     confusions = {gold: {pred: cf.get((gold, pred), 0) for pred in categories}
                   for gold in categories}
@@ -115,7 +115,7 @@ def metric_windiff(forest1, forest2):
 def metric_pi_bed(forest1, forest2):
     dataset = {id_: {"1": get_untyped_masses(tree1),
                      "2": get_untyped_masses(tree2)}
-               for id_, (tree1, tree2) in enumerate(zip(forest1, forest2))}
+               for id_, (tree1, tree2) in enumerate(list(zip(forest1, forest2)))}
     score = segeval.fleiss_pi_linear(dataset) * 100
     return score
 

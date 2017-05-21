@@ -87,7 +87,7 @@ class DiscourseSegment(object):
         """
         return len(self.leaves)
 
-    def __nonzero__(self):
+    def __bool__(self):
         """
         Return True if the given segment is not empty.
 
@@ -101,10 +101,10 @@ class DiscourseSegment(object):
 
         @return unicode string representing this object
         """
-        ret = u"(" + unicode(self.name)
+        ret = "(" + str(self.name)
         for t in self.leaves:
-            ret += u' ' + unicode(t[-1])
-        ret += u" )"
+            ret += ' ' + str(t[-1])
+        ret += " )"
         return ret
 
     def __str__(self):
@@ -122,6 +122,6 @@ class DiscourseSegment(object):
         @return internal representation of this segment
         """
         ret = '<' + self.__class__.__name__ + " at " + str(hex(id(self)))
-        ret += u" name=" + repr(self.name)
-        ret += u" leaves=" + repr(self.leaves) + ">"
+        ret += " name=" + repr(self.name)
+        ret += " leaves=" + repr(self.leaves) + ">"
         return ret

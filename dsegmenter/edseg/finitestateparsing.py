@@ -340,9 +340,9 @@ class Tree(object):
                     yield terminal
 
     def pretty_print(self, a_stream=sys.stdout, a_depth=0, a_indent='    ',
-                     a_term_print=lambda term: u'{form}/{pos}'.format(form=term['form'], \
+                     a_term_print=lambda term: '{form}/{pos}'.format(form=term['form'], \
                                                                         pos=term['pos']),
-                     a_feat_print=lambda feat: u'{0}={1}'.format(feat[0], feat[1]),
+                     a_feat_print=lambda feat: '{0}={1}'.format(feat[0], feat[1]),
                      a_encoding='utf-8'):
         """
         Output nice string representation of the current tree
@@ -359,7 +359,7 @@ class Tree(object):
         emit = lambda out: a_stream.write('{0}{1}'.format(a_indent * a_depth, out))
         if self.feats:
             feat_str = ','.join(a_feat_print(item)
-                                for item in self.feats.iteritems())
+                                for item in self.feats.items())
             emit('({0} [{1}]\n'.format(self.label, feat_str.encode(a_encoding)))
         else:
             emit('({0}\n'.format(self.label))
@@ -375,11 +375,11 @@ class Tree(object):
 
     def __str__(self):
         """Return string representation of tree."""
-        ostring = u""
+        ostring = ""
         if self.feats:
-            feat_str = u','.join([u"{0}={1}".format(item[0], item[1])
-                                 for item in self.feats.iteritems()])
-            ostring = u"({0} [{1}]\n".format(self.label, feat_str)
+            feat_str = ','.join(["{0}={1}".format(item[0], item[1])
+                                 for item in self.feats.items()])
+            ostring = "({0} [{1}]\n".format(self.label, feat_str)
         else:
             ostring = self.label + '\n'
 
@@ -387,7 +387,7 @@ class Tree(object):
             if isinstance(child, Tree):
                 ostring += str(child) + '\n'
             else:
-                ostring += u'{form}/{pos}'.format(form=child['form'], pos=child['pos'])
+                ostring += '{form}/{pos}'.format(form=child['form'], pos=child['pos'])
         ostring += ")\n"
         return ostring
 
@@ -610,14 +610,14 @@ class FiniteStateParser(object):
         @return newly constructed segment tree
         """
         nodes = tokens
-        for lvl, rules in sorted(self._rules.iteritems(), key = itemgetter(0)):
+        for lvl, rules in sorted(iter(self._rules.items()), key = itemgetter(0)):
             nodes = self._parse_level(rules, nodes, catgetter)
         return Tree(self.root_cat, nodes)
 
     def _parse_level(self, rules, nodes, catgetter):
         tag_string = self._make_tag_string(nodes, catgetter)
         tree = None
-        for lhs, rhs_specs in rules.iteritems():
+        for lhs, rhs_specs in rules.items():
             for spec in rhs_specs:
                 pos = 0
                 next_nodes = []
@@ -645,13 +645,13 @@ class FiniteStateParser(object):
                         except Exception as exc:
                             warnings.warn(
                                 'Exception in feature: {0}'.format(lhs, exc))
-                    extend(nodes[idx] for idx in xrange(pos, start))
+                    extend(nodes[idx] for idx in range(pos, start))
                     pos = end
                     tree = Tree(lhs, nodes[start:end], feats=feats)
                     append(tree)
                 if not next_nodes:
                     continue
-                extend(nodes[idx] for idx in xrange(pos, len(nodes)))
+                extend(nodes[idx] for idx in range(pos, len(nodes)))
                 nodes = next_nodes
                 tag_string = self._make_tag_string(nodes, catgetter)
         return nodes

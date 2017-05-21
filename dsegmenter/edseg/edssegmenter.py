@@ -164,7 +164,7 @@ class EDSSegmenter(object):
         for prev, token in self._pairwise(clause.terminals(3)):
             if not self._is_token(token):
                 break
-            elif token['lemma'] in ('dass', u'daß', 'ob'):
+            elif token['lemma'] in ('dass', 'daß', 'ob'):
                 # comment the if block below, if you want dass-sentences to be
                 # considered as separate EDUs
                 if prev is None or (prev['pos'] != 'ADV' and prev['lemma'] != 'so'):
@@ -283,7 +283,7 @@ class EDSSegmenter(object):
             return False
         # Test for cases like "..., nämlich dass ..."
         elif (token1.get('pos') != 'ADV' and
-              next(tokens, {}).get('lemma') in ('dass', u'daß')):
+              next(tokens, {}).get('lemma') in ('dass', 'daß')):
             return False
         return data.dass_verbs.match(prev_verb['lemma'], deps)
 

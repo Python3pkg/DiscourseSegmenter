@@ -58,28 +58,28 @@ def load_verb_list(filename):
 ##################################################################
 # Variables and constants
 PARENS = {
-    u'(': u')',
-    u'[': u']',
-    u'{': u'}',
-    u'<': u'>',
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
 }
 
 DASHES = {
-    u'-': u'-',
-    u'\u2013': u'\u2013',  # en-dash
-    u'\u2014': u'\u2014',  # em-dash
-    u'\u2015': u'\u2015',  # horizontal bar
+    '-': '-',
+    '\u2013': '\u2013',  # en-dash
+    '\u2014': '\u2014',  # em-dash
+    '\u2015': '\u2015',  # horizontal bar
 }
 
 PARENS.update(DASHES)
 
 QUOTES = {
-    u"'": u"'",  # single quotes
-    u'"': u'"',  # double quotes
-    u'„': u'"',  # double quotes
-    u'‌«': u'»',  # guillemet (angle quotes)
-    u'“': u'”',  # quotation marks
-    u'‘': u'’',  # inverted commas
+    "'": "'",  # single quotes
+    '"': '"',  # double quotes
+    '„': '"',  # double quotes
+    '‌«': '»',  # guillemet (angle quotes)
+    '“': '”',  # quotation marks
+    '‘': '’',  # inverted commas
 }
 
 DELIMS = {}
@@ -88,27 +88,27 @@ DELIMS.update(DASHES)
 DELIMS.update(QUOTES)
 
 DELIM_NAMES = {
-    u'(': 'L_PAREN',
-    u')': 'R_PAREN',
-    u'[': 'L_SQUARE_BRACKET',
-    u']': 'R_SQUARE_BRACKET',
-    u'{': 'L_CURLY_BRACKET',
-    u'}': 'R_CURLY_BRACKET',
-    u'<': 'LT',
-    u'>': 'GT',
-    u'-': 'FIGURE_DASH',
-    u'\u2013': 'EN_DASH',
-    u'\u2014': 'EM_DASH',
-    u'\u2015': 'HORIZONTAL_BAR',
-    u"'": 'SINGLE_QUOTE',
-    u'"': 'DOUBLE_QUOTE',
-    u'‌«': 'L_ANGLE_QUOTE',
-    u'»': 'R_ANGLE_QUOTE',
-    u'“': 'QUOTATION_MARK',
-    u'”': 'QUOTATION_MARK',
-    u'„': 'QUOTATION_MARK',
-    u'‘': 'L_INVERTED_COMMA',
-    u'’': 'R_INVERTED_COMMA',
+    '(': 'L_PAREN',
+    ')': 'R_PAREN',
+    '[': 'L_SQUARE_BRACKET',
+    ']': 'R_SQUARE_BRACKET',
+    '{': 'L_CURLY_BRACKET',
+    '}': 'R_CURLY_BRACKET',
+    '<': 'LT',
+    '>': 'GT',
+    '-': 'FIGURE_DASH',
+    '\u2013': 'EN_DASH',
+    '\u2014': 'EM_DASH',
+    '\u2015': 'HORIZONTAL_BAR',
+    "'": 'SINGLE_QUOTE',
+    '"': 'DOUBLE_QUOTE',
+    '‌«': 'L_ANGLE_QUOTE',
+    '»': 'R_ANGLE_QUOTE',
+    '“': 'QUOTATION_MARK',
+    '”': 'QUOTATION_MARK',
+    '„': 'QUOTATION_MARK',
+    '‘': 'L_INVERTED_COMMA',
+    '’': 'R_INVERTED_COMMA',
 }
 
 reporting_verbs = load_verb_list('reporting_verbs.txt')

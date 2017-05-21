@@ -226,13 +226,13 @@ def get_confusions(tree1, tree2):
     spans1 = {(s, l): c for s, l, c in get_typed_spans(tree1)[0]}
     spans2 = {(s, l): c for s, l, c in get_typed_spans(tree2)[0]}
 
-    for (start, length), cat1 in spans1.iteritems():
+    for (start, length), cat1 in spans1.items():
         if (start, length) in spans2:
             cat2 = spans2[(start, length)]
             yield cat1, cat2
         else:
             yield cat1, None
 
-    for (start, length), cat2 in spans2.iteritems():
+    for (start, length), cat2 in spans2.items():
         if (start, length) not in spans1:
             yield None, cat2

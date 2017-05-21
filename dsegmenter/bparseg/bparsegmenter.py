@@ -144,7 +144,7 @@ def read_trees(a_lines, a_one_per_line = False):
         t_cnt += len(t2t[(t_cnt, ctree.label())][-1])
 
     toks2trees = dict()
-    for ((tree_c, tree_lbl), (tree, toks)) in trees2toks.iteritems():
+    for ((tree_c, tree_lbl), (tree, toks)) in trees2toks.items():
         toks = frozenset(toks)
         if toks in toks2trees:
             toks2trees[toks].append(tree)
@@ -204,7 +204,7 @@ def read_segments(a_lines):
                 t_c += 1
         assert not active_segments, "Unbalanced opening parenthesis at line: " + repr(iline)
     toks2segs = dict()
-    segments = segs2toks.keys()
+    segments = list(segs2toks.keys())
     segments.sort(key = lambda el: el[0])
     for seg in segments:
         toks = frozenset(segs2toks[seg])
@@ -229,19 +229,19 @@ def trees2segs(a_toks2trees, a_toks2segs):
 
     """
     # prune empty trees and their corresponding segments
-    tree2seg = {t: None for val in a_toks2trees.values() for t in val}
+    tree2seg = {t: None for val in list(a_toks2trees.values()) for t in val}
     # add additional keys to `a_toks2trees` by pruning punctuation marks from
     # existing trees
     pruned_toks = None
-    tree_tok_keys = a_toks2trees.keys()
+    tree_tok_keys = list(a_toks2trees.keys())
     for tree_toks in tree_tok_keys:
         pruned_toks = _prune_punc(tree_toks)
         if pruned_toks not in a_toks2trees:
             a_toks2trees[pruned_toks] = a_toks2trees[tree_toks]
     # establish a mapping between tree tokens and segment tokens
-    tree_toks = list(set([t for t_set in a_toks2trees.keys() for t in t_set]))
+    tree_toks = list(set([t for t_set in list(a_toks2trees.keys()) for t in t_set]))
     tree_toks.sort(key = lambda el: el[0])
-    seg_toks = list(set([t for t_set in a_toks2segs.keys() for t in t_set]))
+    seg_toks = list(set([t for t_set in list(a_toks2segs.keys()) for t in t_set]))
     seg_toks.sort(key = lambda el: el[0])
     # align tokens if necessary
     seg_t2tree_t = None
@@ -253,7 +253,7 @@ def trees2segs(a_toks2trees, a_toks2segs):
         # for each segment look if its corresponding token set is matched by
         # any other subtree
         translated_toks = None
-    for toks, segs in a_toks2segs.iteritems():
+    for toks, segs in a_toks2segs.items():
         translated_toks = _translate_toks(toks, seg_t2tree_t)
         key = None
         if translated_toks in a_toks2trees:
@@ -281,33 +281,33 @@ def featgen(a_tree):
     """
     assert a_tree.leaves(), "Tree does not contain leaves."
     # add unigram features
-    ret = {u"tok_{:s}".format(token.lower()): 1 for token in a_tree.leaves()}
+    ret = {"tok_{:s}".format(token.lower()): 1 for token in a_tree.leaves()}
     # add very first and very last tokens of the tree
-    ret[u"tokFirst_{:s}".format(a_tree.leaves()[0].lower())] = 1
-    ret[u"tokLast_{:s}".format(a_tree.leaves()[-1].lower())] = 1
+    ret["tokFirst_{:s}".format(a_tree.leaves()[0].lower())] = 1
+    ret["tokLast_{:s}".format(a_tree.leaves()[-1].lower())] = 1
     sublabels = [st.label() for st in a_tree.subtrees()]
     if sublabels:
-        ret[u"lblFirst_{:s}".format(sublabels[0].lower())] = 1
-        ret[u"lblLast_{:s}".format(sublabels[-1].lower())] = 1
+        ret["lblFirst_{:s}".format(sublabels[0].lower())] = 1
+        ret["lblLast_{:s}".format(sublabels[-1].lower())] = 1
     # add tree label
-    ret[u"lbl_{:s}".format(a_tree.label())] = 1
+    ret["lbl_{:s}".format(a_tree.label())] = 1
     # add label of the parent tree
-    ret[u"prntLbl_{:s}".format(a_tree.prnt_label())] = 1
+    ret["prntLbl_{:s}".format(a_tree.prnt_label())] = 1
     # add first and last word of the parent tree
     if a_tree.parent():
         prnt_tree = a_tree.parent()
         t_idx = a_tree.parent_index()
-        ret[u"treeIdx"] = t_idx
+        ret["treeIdx"] = t_idx
         if t_idx > 0:
             prev_tree = prnt_tree[t_idx - 1]
-            ret[u"prevLbl_{:s}".format(prev_tree.label())] = 1
-            ret[u"prevTokFrst_{:s}".format(prev_tree.leaves()[0].lower())] = 1
-            ret[u"prevTokLst_{:s}".format(prev_tree.leaves()[-1].lower())] = 1
+            ret["prevLbl_{:s}".format(prev_tree.label())] = 1
+            ret["prevTokFrst_{:s}".format(prev_tree.leaves()[0].lower())] = 1
+            ret["prevTokLst_{:s}".format(prev_tree.leaves()[-1].lower())] = 1
         if t_idx + 1 < len(prnt_tree):
             nxt_tree = prnt_tree[t_idx + 1]
-            ret[u"nxtLbl_{:s}".format(nxt_tree.label())] = 1
-            ret[u"pxtTokFrst_{:s}".format(nxt_tree.leaves()[0].lower())] = 1
-            ret[u"pxtTokLst_{:s}".format(nxt_tree.leaves()[-1].lower())] = 1
+            ret["nxtLbl_{:s}".format(nxt_tree.label())] = 1
+            ret["pxtTokFrst_{:s}".format(nxt_tree.leaves()[0].lower())] = 1
+            ret["pxtTokLst_{:s}".format(nxt_tree.leaves()[-1].lower())] = 1
     # add tree height
     ret["height"] = a_tree.height()
     # add label of the parent tree

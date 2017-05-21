@@ -136,15 +136,15 @@ def align_tokenized_tree(toks1, toks2, tree_pair_name="no-name-given",
             add_to(new_a, current_b)
             add_to(new_b, current_b)
             buffer_a = current_a[len(current_b):]
-            print "Aligning subtokens %s and %s in text %s ..." % \
-                (current_a, current_b, tree_pair_name)
+            print("Aligning subtokens %s and %s in text %s ..." % \
+                (current_a, current_b, tree_pair_name))
         elif current_b.startswith(current_a):
             # align subtokens
             add_to(new_a, current_a)
             add_to(new_b, current_a)
             buffer_b = current_b[len(current_a):]
-            print "Aligning subtokens %s and %s in text %s ..." % \
-                (current_a, current_b, tree_pair_name)
+            print("Aligning subtokens %s and %s in text %s ..." % \
+                (current_a, current_b, tree_pair_name))
         else:
             # cannot align
             raise AlignmentError(

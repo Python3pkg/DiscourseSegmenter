@@ -42,7 +42,7 @@ nw_align - Needleman-Wunsch alignment algorithm: (O(nm) time; O(nm) space)
 
 ##################################################################
 # Imports
-from __future__ import print_function
+
 
 import sys
 
@@ -81,7 +81,7 @@ def hb_align(s1, s2, insert = lambda c: -2, \
         ret = [[] for c in s1]
     # another easy case is when both iterables are identical
     elif s1 == s2:
-        ret = [[i + offset] for i in xrange(L1)]
+        ret = [[i + offset] for i in range(L1)]
     # the trickier case, however, is when actual alignment should be done
     elif L1 == 1 or L2 == 1:
         ret = nw_align(s1, s2, *penalties, offset = offset)
@@ -146,14 +146,14 @@ def _make_matrix_(s1, s2, insert, delete, substitute):
     # get lengths of both lists
     L1 = len(s1) + 1; L2 = len(s2) + 1
     # create a matrix for storing scores and backtracking information.
-    mtx = [[[None, None]] * L2  for c in xrange(L1)]
+    mtx = [[[None, None]] * L2  for c in range(L1)]
     # auxiliary variables for characters
     c1 = c2 = ''
     # auxiliary variables for iterators
     i = j = prev_i = prev_j = 0
     # iterator over the second string
-    s1_it = xrange(1, L1)
-    s2_it = xrange(1, L2)
+    s1_it = range(1, L1)
+    s2_it = range(1, L2)
     # individual scores for insertion, deletion, and substitution
     inscore = delscore = subscore = maxscore = 0
     # backtracking index
@@ -213,7 +213,7 @@ def _decode_matrix_(mtx, a_offset = 0, a_keep = False):
     i = len(mtx) - 1; j = len(mtx[0]) - 1
     # return value will be a list of length `len(s1)` whose elements in turn
     # will be lists of element indices of `s2`
-    ret = [[] for c in xrange(i)]
+    ret = [[] for c in range(i)]
     # backtracking indices
     prev_i = prev_j = 0
     while i > 0 or j > 0:
@@ -250,7 +250,7 @@ def _partition_(seq1, seq2):
     @return pos - such that seq1[pos] + seq2[pos] is maximum
     """
     _sum_ = _max_ = _pos_ = float("-inf")
-    for pos, ij in enumerate(zip(seq1, seq2)):
+    for pos, ij in enumerate(list(zip(seq1, seq2))):
         _sum_ = sum(ij)
         if _sum_ > _max_:
             _max_ = _sum_
@@ -279,11 +279,11 @@ def _nw_score_(s1, s2, insert = lambda c: -2, \
     # to every length
     m = len(s1) + 1; n = len(s2) + 1
     # score will be a two dimensional matrix
-    score = [[0 for i in xrange(n)], [0 for i in xrange(n)]]
+    score = [[0 for i in range(n)], [0 for i in range(n)]]
     # character of first and second string, respectively
     c1 = c2 = ''
     # iterator over the second string
-    s2_it = xrange(1, n)
+    s2_it = range(1, n)
     # indices of current and previous column in the error matrix (will be
     # swapped along the way)
     crnt = 0; prev = 1; prev_j = 0
@@ -292,7 +292,7 @@ def _nw_score_(s1, s2, insert = lambda c: -2, \
         prev_j = j - 1
         score[crnt][j] = score[crnt][prev_j] + insert(s2[prev_j])
     # iterate over the first string
-    for i in xrange(1, m):
+    for i in range(1, m):
         # swap current and previous columns
         prev, crnt = crnt, prev
         # get current character of the first string

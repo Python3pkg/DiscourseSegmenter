@@ -180,7 +180,7 @@ def get_training_observations(seg_trees, dep_trees):
         for seg_sub_tree in generate_subtrees_from_forest(seg_trees):
             node = seg_sub_tree.label()
             if node is None or node == "":
-                print "Warning: Empty node.", sentence_index
+                print("Warning: Empty node.", sentence_index)
             if unequal_tokenizations:
                 seg_leaves = set([seg_to_dep_tok[leaf]
                                  for leaf in seg_sub_tree.leaves()])
@@ -275,8 +275,8 @@ class MateSegmenter(object):
         return features, labels
 
     def segment(self, dep_corpus, out_folder):
-        for text, trees in dep_corpus.iteritems():
-            print text
+        for text, trees in dep_corpus.items():
+            print(text)
             discourse_tree = self.segment_text(trees)
             with open(out_folder + '/' + text + '.tree', 'w') as fout:
                 fout.write(str(discourse_tree))
@@ -320,7 +320,7 @@ class MateSegmenter(object):
         return segments
 
     def train(self, seg_corpus, dep_corpus, path=None):
-        assert seg_corpus.keys() == dep_corpus.keys()
+        assert list(seg_corpus.keys()) == list(dep_corpus.keys())
         features, labels = self.extract_features_from_corpus(
             dep_corpus, seg_corpus=seg_corpus)
         self._train(features, labels)
@@ -332,7 +332,7 @@ class MateSegmenter(object):
         self.pipeline.fit(features, labels)
 
     def test(self, seg_corpus, dep_corpus):
-        assert seg_corpus.keys() == dep_corpus.keys()
+        assert list(seg_corpus.keys()) == list(dep_corpus.keys())
         features, labels = self.extract_features_from_corpus(
             dep_corpus, seg_corpus=seg_corpus)
         predicted_labels = self._predict(features)
@@ -349,7 +349,7 @@ class MateSegmenter(object):
         return macro_f1, micro_f1
 
     def cross_validate(self, seg_corpus, dep_corpus, out_folder=None):
-        assert seg_corpus.keys() == dep_corpus.keys()
+        assert list(seg_corpus.keys()) == list(dep_corpus.keys())
         texts = np.array(sorted(seg_corpus.keys()))
         folds = KFold(len(texts), number_of_folds)
 
@@ -367,17 +367,17 @@ class MateSegmenter(object):
         micro_F1s = []
         tp = fp = fn = tp_i = fp_i = fn_i = 0
         for i, (train, test) in enumerate(folds):
-            print "# FOLD", i
+            print("# FOLD", i)
             # train
             train_texts = texts[train]
             train_features = chained([all_features[text] for text in
                                       train_texts])
             train_labels = chained([all_labels[text] for text in train_texts])
-            print "  training on %d items..." % len(train_labels)
+            print("  training on %d items..." % len(train_labels))
             self._train(train_features, train_labels)
-            print "  extracted %d features using the dict vectorizer." % \
+            print("  extracted %d features using the dict vectorizer." % \
                 len(self.pipeline.named_steps[
-                    'vectorizer'].get_feature_names())
+                    'vectorizer'].get_feature_names()))
             # test (predicting textwise)
             test_labels = []
             pred_labels = []
@@ -400,14 +400,14 @@ class MateSegmenter(object):
             fp += fp_i
             fn += fn_i
 
-        print "# Average Macro F1 = %3.1f +- %3.2f" % \
-            (100 * np.mean(macro_F1s), 100 * np.std(macro_F1s))
-        print "# Average Micro F1 = %3.1f +- %3.2f" % \
-            (100 * np.mean(micro_F1s), 100 * np.std(micro_F1s))
+        print("# Average Macro F1 = %3.1f +- %3.2f" % \
+            (100 * np.mean(macro_F1s), 100 * np.std(macro_F1s)))
+        print("# Average Micro F1 = %3.1f +- %3.2f" % \
+            (100 * np.mean(micro_F1s), 100 * np.std(micro_F1s)))
         if tp or fp or fn:
-            print "# F1_{tp,fp} %.2f" % (2. * tp / (2. * tp + fp + fn) * 100)
+            print("# F1_{tp,fp} %.2f" % (2. * tp / (2. * tp + fp + fn) * 100))
         else:
-            print "# F1_{tp,fp} 0. %"
+            print("# F1_{tp,fp} 0. %")
 
     def _update_model(self, model):
         if model is None:

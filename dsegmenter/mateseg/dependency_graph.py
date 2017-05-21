@@ -54,7 +54,7 @@ class DependencyGraph(NLTKDependencyGraph):
         '''returns a sorted list of the addresses of all dependencies of the
            node at the specified address'''
         deps_dict = self.nodes[address].get(DEPS, {})
-        return sorted([e for l in deps_dict.values() for e in l])
+        return sorted([e for l in list(deps_dict.values()) for e in l])
 
     def address_span(self, start_address):
         '''returns the addresses of nodes (im)mediately depending on the given
@@ -64,7 +64,7 @@ class DependencyGraph(NLTKDependencyGraph):
         while len(worklist) != 0:
             address = worklist.pop(0)
             addresses.append(address)
-            for _rel, deps in self.nodes[address][DEPS].items():
+            for _rel, deps in list(self.nodes[address][DEPS].items()):
                 worklist.extend(deps)
         return sorted(addresses)
 
@@ -81,10 +81,10 @@ class DependencyGraph(NLTKDependencyGraph):
            for the moment just check for a unique root'''
         root = self.get_dependencies_simple(0)
         if len(root) < 1:
-            print "Warning: No root address"
+            print("Warning: No root address")
             return False
         if len(root) > 1:
-            print "Warning: More than one root address"
+            print("Warning: More than one root address")
             return False
         return True
 
@@ -105,7 +105,7 @@ class DependencyGraph(NLTKDependencyGraph):
     def deannotate(self, field_name):
         '''remove annotations of an additional non-standard field'''
         assert field_name not in STANDARD_FIELDS
-        for node in self.nodes.values():
+        for node in list(self.nodes.values()):
             if field_name in node:
                 del node[field_name]
 

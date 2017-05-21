@@ -114,7 +114,7 @@ class FeatureMatrix(object):
 
         @return FeatureMatrix instance
         """
-        return cls([v for v in feat_dict.itervalues()])
+        return cls([v for v in feat_dict.values()])
 
     def unify(self, other):
         """
@@ -182,7 +182,7 @@ class Chunker(object):
         isent = deepcopy(sent)
         for token in isent:
             if token['pos'] in ('ART', 'NE', 'NN'):
-                if isinstance(token['feat'], basestring):
+                if isinstance(token['feat'], str):
                     token['feat'] = FeatureMatrix.from_string(token['feat'])
                 elif isinstance(token['feat'], dict):
                     token['feat'] = FeatureMatrix.from_dict(token['feat'])
@@ -203,7 +203,7 @@ class Chunker(object):
                 return False
             return match[3][0]['lemma'] in ('Januar',
                                             'Februar',
-                                            u'März',
+                                            'März',
                                             'Maerz',
                                             'April',
                                             'Mai',

@@ -163,7 +163,7 @@ def example1():
 
     pscore = precision([gold], [parse])
     rscore = recall([gold], [parse])
-    print pscore, rscore
+    print(pscore, rscore)
 
 
 def example2():
@@ -218,16 +218,16 @@ def example2():
             (ADJX (adja unsicherste))
             (nn Fundament))))
 """)
-    print "Precision:", precision([gold], [parse])
-    print "Labeled precision:", labeled_precision([gold], [parse])
-    print "Recall:", recall([gold], [parse])
-    print "Labeled recall:", labeled_recall([gold], [parse])
+    print("Precision:", precision([gold], [parse]))
+    print("Labeled precision:", labeled_precision([gold], [parse]))
+    print("Recall:", recall([gold], [parse]))
+    print("Labeled recall:", labeled_recall([gold], [parse]))
 
-    print "SWITCH GOLD PARSE:"
-    print "Precision:", precision([parse], [gold])
-    print "Labeled precision:", labeled_precision([parse], [gold])
-    print "Recall:", recall([parse], [gold])
-    print "Labeled recall:", labeled_recall([parse], [gold])
+    print("SWITCH GOLD PARSE:")
+    print("Precision:", precision([parse], [gold]))
+    print("Labeled precision:", labeled_precision([parse], [gold]))
+    print("Recall:", recall([parse], [gold]))
+    print("Labeled recall:", labeled_recall([parse], [gold]))
 
 
 def main():

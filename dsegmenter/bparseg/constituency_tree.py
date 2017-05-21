@@ -102,7 +102,7 @@ class CTree(Tree):
             imatch = NO_PARSE_RE.match(iline)
             if imatch or not iline:
                 if lines:
-                    yield Tree.fromstring(u'\t'.join(lines))
+                    yield Tree.fromstring('\t'.join(lines))
                     del lines[:]
                 if imatch:
                     yield Tree("TOP", imatch.group(1).split())
@@ -117,7 +117,7 @@ class CTree(Tree):
                 else:
                     lines.append(CP_RE.sub(CP, OP_RE.sub(OP, iline)))
         if lines:
-            yield Tree.fromstring(u'\t'.join(lines))
+            yield Tree.fromstring('\t'.join(lines))
 
     @classmethod
     def _get_segments(cls, a_line):

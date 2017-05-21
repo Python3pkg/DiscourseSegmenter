@@ -38,7 +38,7 @@ def catgetter(node):
     """
     if hasattr(node, 'label'):
         return node.label
-    form = unicode(node['form'])
+    form = str(node['form'])
     if form in DELIM_NAMES:
         return DELIM_NAMES[form]
     return node['pos']
@@ -215,7 +215,7 @@ class ClauseSegmenter(object):
         # Parenthesized segments #
         ##########################
 
-        for ldelim, rdelim in DELIMS.iteritems():
+        for ldelim, rdelim in DELIMS.items():
             ldelim_name = DELIM_NAMES[ldelim]
             rdelim_name = DELIM_NAMES[rdelim]
             add_rule('Paren', '<{0}>[^<{1}>]+<{1}>'.format(ldelim_name,
@@ -343,7 +343,7 @@ class ClauseSegmenter(object):
 
         def complex_that(match):
             tokens = list(match[1][0].iter_terminals())
-            return (match_(tokens, ('Dadurch', u'Dafür', 'Dafuer')) or
+            return (match_(tokens, ('Dadurch', 'Dafür', 'Dafuer')) or
                     match_(tokens, 'Aufgrund', 'dessen') or
                     match_(tokens, 'Auf', 'Grund', 'dessen'))
 

@@ -167,7 +167,7 @@ class TreeSegmenter(object):
         if a_predict is None:   # find appropriate decision function
             a_predict = self.decfunc
 
-        if isinstance(a_tree, basestring):
+        if isinstance(a_tree, str):
             a_ret.append((a_start, a_tree))
             a_start += 1
         else:
